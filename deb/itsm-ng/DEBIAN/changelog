@@ -1,0 +1,5 @@
+itsm-ng (1:1.1.0-1) bullseye; urgency=medium
+
+    * First debian package base on 1.1.0 of ITSM-NG
+
+ -- ITSM-NG Dev team <contact@itsm-ng.com>  Wed, 10 Aug 2022 14:36:42 +0200

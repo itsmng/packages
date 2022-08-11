@@ -1,0 +1,8 @@
+#!/bin/sh
+#set -e
+
+echo "Removing files..."
+rm -rf /var/www/html/itsm-ng/config /var/www/html/itsm-ng/files
+
+systemctl restart apache2
+exit 0
