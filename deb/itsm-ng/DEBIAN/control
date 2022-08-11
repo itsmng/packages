@@ -1,6 +1,7 @@
 Source: itsm-ng
 Section: itsm-ng
 Essential: no
+Priority: standard
 Maintainer: ITSM-NG Dev team <contact@itsm-ng.com>
 Build-Depends: debhelper (>= 7.0.50~)
 Homepage: https://www.itsm-ng.org/
