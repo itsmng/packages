@@ -6,7 +6,6 @@ if mysqlshow itsmng ; then
     echo "Nothing to update"
 else 
     mysql --execute="CREATE DATABASE itsmng; CREATE USER 'itsmng'@'localhost' IDENTIFIED BY 'itsmng'; GRANT ALL PRIVILEGES ON itsmng.* TO itsmng@localhost; FLUSH PRIVILEGES;"
-
 fi
 
 chown -R www-data: /var/www/html/itsm-ng
