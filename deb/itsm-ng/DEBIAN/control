@@ -6,7 +6,7 @@ Maintainer: ITSM-NG Dev team <contact@itsm-ng.com>
 Build-Depends: debhelper (>= 7.0.50~)
 Homepage: https://www.itsm-ng.org/
 Package: itsm-ng
-Version: 1:1.1.0-2
+Version: 1:1.2.0-1
 Architecture: all
 Depends: debconf-2.0, build-essential, mariadb-server, apache2, php, php-ctype, php-curl, php-gd, php-iconv, php-intl, php-json, php-mbstring, php-mysqli, php-simplexml
 Recommends: php-exif, php-imap, php-ldap, php-sodium, php-zip, php-bz2, php-apcu, php-opcache, php-xmlrpc
