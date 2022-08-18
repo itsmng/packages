@@ -1,10 +1,10 @@
 %global useselinux 1
 
 %global tarname itsm-ng
-%global official_version 1.1.0
+%global official_version 1.2.0
 
 Name:           itsm-ng
-Version:        1.1.0
+Version:        1.2.0
 Release:        1%{?dist}
 Summary:        IT Equipment Manager
 
@@ -16,8 +16,10 @@ Source0:     %{name}-%{version}.tgz
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       mariadb-server
+Requires:       epel-release
 Requires:       httpd
-Requires:       php
+Requires:       php >= 8.0
+Requires:       php-sodium
 Requires:       php-ctype
 Requires:       php-curl
 Requires:       php-gd
@@ -30,6 +32,7 @@ Requires:       php-simplexml
 Requires:       php-ldap
 Requires:       php-apcu
 Requires:       php-xmlrpc
+Requires:       php-opcache
 
 %undefine __brp_mangle_shebangs
 
@@ -75,5 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, apache, apache, -)
 
 %changelog
+* Thu Aug 18 2022 Esteban Hulin <devteam@itsm-ng.com> - 1.2.0-1
+- 1.2.0 Version with php 8.X compatibility fixes
 * Wed Jul 27 2022 Esteban Hulin <esteban.hulin@itsm-ng.com> - 1.1.0-1
 - First version being packaged
