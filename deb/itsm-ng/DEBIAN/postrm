@@ -1,8 +1,19 @@
 #!/bin/sh
 #set -e
 
-echo "Removing files..."
-rm -rf /var/www/html/itsm-ng/config /var/www/html/itsm-ng/files
+echo "Clean old version"
+
+if [ -d "/var/www/html/itsm-ng/config" ]
+then
+    rm -rf /var/www/html/itsm-ng/config /var/www/html/itsm-ng/files
+fi
+
+if [ -d "/var/www/html/itsm-ng/files" ]
+then
+    rm -rf /var/www/html/itsm-ng/files
+fi
+
+a2dissite itsm-ng.conf
 
 systemctl restart apache2
 exit 0
