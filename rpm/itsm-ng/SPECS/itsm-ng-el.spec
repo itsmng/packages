@@ -1,10 +1,10 @@
 %global useselinux 1
 
 %global tarname itsm-ng
-%global official_version 1.2.0
+%global official_version 1.3.0
 
 Name:           itsm-ng
-Version:        1.2.0
+Version:        1.3.0
 Release:        1%{?dist}
 Summary:        IT Equipment Manager
 
@@ -78,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-, apache, apache, -)
 
 %changelog
+* Wed Nov 16 2022 ITSM Dev Team <devteam@itsm-ng.com> - 1.3.0-1
+- Update to 1.3.0
 * Thu Aug 18 2022 Esteban Hulin <devteam@itsm-ng.com> - 1.2.0-1
 - 1.2.0 Version with php 8.X compatibility fixes
 * Wed Jul 27 2022 Esteban Hulin <esteban.hulin@itsm-ng.com> - 1.1.0-1
