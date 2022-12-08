@@ -1,0 +1,13 @@
+#!/bin/sh
+#set -e
+
+if [ -d "/var/www/html/itsm-ng/config" ]
+then
+    echo "Save old ITSM-NG folders..."
+    mkdir /var/lib/itsmbackup_update
+    mv /var/www/html/itsm-ng /var/lib/itsmbackup_update/
+else 
+    echo "First installation. Skip pre-install script."
+fi
+
+exit 0
