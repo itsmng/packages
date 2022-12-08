@@ -8,6 +8,21 @@ else
     mysql --execute="CREATE DATABASE itsmng; CREATE USER 'itsmng'@'localhost' IDENTIFIED BY 'itsmng'; GRANT ALL PRIVILEGES ON itsmng.* TO itsmng@localhost; FLUSH PRIVILEGES;"
 fi
 
+if [ -d "/var/lib/itsmbackup_update/itsm-ng" ]
+then
+    echo "Restore old ITSM-NG files..."
+    cp -r /var/lib/itsmbackup_update/itsm-ng/files /var/www/html/itsm-ng/
+    echo "Restore old ITSM-NG config..."
+    cp -r /var/lib/itsmbackup_update/itsm-ng/config /var/www/html/itsm-ng/
+    mv /var/www/html/itsm-ng/config/config_db.php /var/www/html/itsm-ng/config/config_db.php.old
+    echo "Restore old ITSM-NG plugins..."
+    cp -r /var/lib/itsmbackup_update/itsm-ng/plugins /var/www/html/itsm-ng/
+    echo "Remove ITSM-NG backup folder"
+    rm -rf /var/lib/itsmbackup_update
+else 
+    echo "No old files or folders to restore"
+fi
+
 chown -R www-data: /var/www/html/itsm-ng
 
 systemctl restart apache2
