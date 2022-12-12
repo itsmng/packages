@@ -1,3 +1,15 @@
+itsm-ng (1:1.3.0-2) bullseye; urgency=medium
+
+    * Move config files to /etc/itsm-ng
+    * Move files to /var/lib/itsm-ng
+    * Move itsm-ng app to /usr/share/itsm-ng
+    * Add itsm-ng apache configuration file 
+    * Add preinstallation script to save old ITSM-NG folder before upgrade
+    * Restore files, config, plugins and itsm-ng apache config file after upgrade
+    * Rename config_db.php to config_db.php.old
+
+ -- ITSM-NG Dev team <contact@itsm-ng.com>  Thu, 08 Dec 2022 09:31:50 +0200
+
 itsm-ng (1:1.3.0-1) bullseye; urgency=medium
 
     * Debian package based on 1.3.0 of ITSM-NG
