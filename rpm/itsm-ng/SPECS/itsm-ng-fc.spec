@@ -1,11 +1,11 @@
 %global useselinux 1
 
 %global tarname itsm-ng
-%global official_version 1.3.0
+%global official_version 1.4.0
 
 Name:           itsm-ng
-Version:        1.3.0
-Release:        2%{?dist}
+Version:        1.4.0
+Release:        1%{?dist}
 Summary:        IT Equipment Manager
 
 Group:       Applications/Internet
@@ -188,6 +188,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(755, apache, apache, -)
 
 %changelog
+* Tue Jan 24 2023 ITSM Dev Team <devteam@itsm-ng.com> - 1.4.0-1
+- Update to 1.4.0
+
 * Fri Dec 09 2022 ITSM Dev Team <devteam@itsm-ng.com> - 1.3.0-2
 - Move config files to /etc/itsm-ng
 - Move files to /var/lib/itsm-ng
