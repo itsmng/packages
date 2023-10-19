@@ -36,5 +36,5 @@ chown -R www-data: /etc/itsm-ng
 chown -R www-data: /usr/share/itsm-ng
 chown -R www-data: /var/lib/itsm-ng
 
-systemctl restart apache2
+service apache2 restart
 exit 0

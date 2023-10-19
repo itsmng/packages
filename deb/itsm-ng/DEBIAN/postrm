@@ -15,5 +15,5 @@ fi
 
 a2dissite itsm-ng.conf
 
-systemctl restart apache2
+service apache2 restart
 exit 0
