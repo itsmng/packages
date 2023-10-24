@@ -20,9 +20,11 @@ _Note : -Zgzip is only reveleant if you are compiling from ubuntu which use `zst
 
 ## RPM
 
-Store ITSM-NG as.tgz format in */SOURCES*.
-To compile your own source update *itsm-ng.tgz*. 
 If you also want to update the version, edit the *itsm-ng.spec* file in *SPECS* folder.
 
 To compile the rpm you need to follow these instructions :
-- *TODO*
+
+```
+dnf install -y rpmdevtools
+rpmbuild -bb ~/rpmbuild/SPECS/itsm-ng.spec
+```
