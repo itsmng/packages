@@ -143,6 +143,7 @@ fi
 chown -R apache: %{_sysconfdir}/itsm-ng
 chown -R apache: %{_sharedstatedir}/itsm-ng
 chown -R apache: %{_datadir}/itsm-ng
+chcon -R -t httpd_sys_content_t %{_sysconfdir}/itsm-ng
 
 systemctl restart httpd
 
