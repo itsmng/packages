@@ -119,14 +119,6 @@ setsebool -P httpd_can_network_connect 1
 setsebool -P httpd_can_sendmail 1
 setsebool -P httpd_can_network_connect_db 1
 
-systemctl start mariadb.service
-
-# Check if itsmng database already exists
-if mysqlshow itsmng ; then
-    echo "Nothing to update"
-else 
-    mysql --execute="CREATE DATABASE itsmng; CREATE USER 'itsmng'@'localhost' IDENTIFIED BY 'itsmng'; GRANT ALL PRIVILEGES ON itsmng.* TO itsmng@localhost; FLUSH PRIVILEGES;"
-fi
 
 # Restore backup if exists
 if [ -d %{_sharedstatedir}/itsmbackup_update ]
