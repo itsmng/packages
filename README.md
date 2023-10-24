@@ -25,6 +25,9 @@ If you also want to update the version, edit the *itsm-ng.spec* file in *SPECS* 
 To compile the rpm you need to follow these instructions :
 
 ```
-dnf install -y rpmdevtools
+dnf install -y rpmdevtools git
+rpmdev-setuptree
+git clone https://github.com/itsmng/packages
+cp -r packages/rpm/itsm-ng/* ~/rpmbuild/
 rpmbuild -bb ~/rpmbuild/SPECS/itsm-ng.spec
 ```
