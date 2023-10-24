@@ -34,8 +34,7 @@ Requires:       php-mbstring
 Requires:       php-mysqli
 Requires:       php-simplexml
 Requires:       php-ldap
-Requires:       php-apcu
-Requires:       php-xmlrpc
+Requires:       php-pecl-apcu
 Requires:       php-opcache
 
 %{?rhel:Requires: epel-release}
@@ -98,16 +97,16 @@ mkdir -p %{buildroot}%{_sharedstatedir}/itsm-ng
 # Create ITSM-NG apache configuration folder
 mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
 
-# Move local_define in config folder
-mv %{SOURCE3} %{buildroot}%{_sysconfdir}/itsm-ng
+# Copy local_define in config folder
+cp %{SOURCE3} %{buildroot}%{_sysconfdir}/itsm-ng
 # Copy ITSM-NG app 
 cp -ar . %{buildroot}%{_datadir}/itsm-ng
-# Move downstream.php to ITSM-NG inc folder
-mv %{SOURCE2} %{buildroot}%{_datadir}/itsm-ng/inc
-# Move ITSM-NG files folder
+# Copy downstream.php to ITSM-NG inc folder
+cp %{SOURCE2} %{buildroot}%{_datadir}/itsm-ng/inc
+# Copy ITSM-NG files folder
 cp -ar %{buildroot}%{_datadir}/itsm-ng/files/* %{buildroot}%{_sharedstatedir}/itsm-ng
-# Move ITSM-NG apache configuration file
-mv %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d
+# Copy ITSM-NG apache configuration file
+cp %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d
 
 ##########################################
 #                                        #
@@ -191,7 +190,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(755, apache, apache, -)
 
 %changelog
-* Tue Oct 23 2023 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.5.1-1
+* Tue Oct 24 2023 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.5.1-1
 - Refactor .SPEC file
 
 * Fri Dec 09 2022 ITSM Dev Team <devteam@itsm-ng.com> - 1.3.0-2
