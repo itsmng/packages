@@ -1,26 +1,28 @@
 %global useselinux 1
 
 %global tarname itsm-ng
-%global official_version 1.3.0
+%global official_version 1.5.1
+
+%undefine _disable_source_fetch
 
 Name:           itsm-ng
-Version:        1.3.0
-Release:        2%{?dist}
+Version:        1.5.1
+Release:        1%{?dist}
 Summary:        IT Equipment Manager
 
-Group:       Applications/Internet
-License:     GPLv2
-URL:         http://www.itsm-ng.org/
-Source0:     %{name}-%{version}.tgz
-Source1:     itsm-ng.conf
-Source2:     downstream.php
-Source3:     local_define.php
+Group:          Applications/Internet
+License:        GPLv2
+URL:            http://www.itsm-ng.org/
+Source0:        https://github.com/itsmng/itsm-ng/releases/download/v%{version}/%{name}-%{version}.tgz
+Source1:        itsm-ng.conf
+Source2:        downstream.php
+Source3:        local_define.php
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       mariadb-server
 Requires:       httpd
-Requires:       php
+Requires:       php >= 8.0
 Requires:       php-sodium
 Requires:       php-ctype
 Requires:       php-curl
@@ -35,6 +37,8 @@ Requires:       php-ldap
 Requires:       php-apcu
 Requires:       php-xmlrpc
 Requires:       php-opcache
+
+%{?rhel:Requires: epel-release}
 
 %undefine __brp_mangle_shebangs
 
@@ -146,7 +150,6 @@ fi
 
 # Set apache rights
 chown -R apache: %{_sysconfdir}/itsm-ng
-chcon -R -t httpd_sys_content_t %{_sysconfdir}/itsm-ng
 chown -R apache: %{_sharedstatedir}/itsm-ng
 chown -R apache: %{_datadir}/itsm-ng
 
@@ -188,6 +191,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(755, apache, apache, -)
 
 %changelog
+* Tue Oct 23 2023 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.5.1-1
+- Refactor .SPEC file
+
 * Fri Dec 09 2022 ITSM Dev Team <devteam@itsm-ng.com> - 1.3.0-2
 - Move config files to /etc/itsm-ng
 - Move files to /var/lib/itsm-ng
