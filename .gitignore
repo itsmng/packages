@@ -1,5 +1,6 @@
 *.deb
 *.rpm
-deb/itsm-ng/var/www/html/itsm-ng
+deb/itsm-ng/usr/share/itsm-ng
+deb/itsm-ng/var/lib/itsm-ng
 rpm/itsm-ng/SOURCES/*.tgz
 .vscode/
