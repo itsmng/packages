@@ -24,9 +24,9 @@ fi
 
 a2ensite itsm-ng.conf
 
-chown -R www-data: /etc/itsm-ng
-chown -R www-data: /usr/share/itsm-ng
-chown -R www-data: /var/lib/itsm-ng
+chown -R www-data:www-data /etc/itsm-ng
+chown -R www-data:www-data /usr/share/itsm-ng
+chown -R www-data:www-data /var/lib/itsm-ng
 
 service apache2 restart
 exit 0
