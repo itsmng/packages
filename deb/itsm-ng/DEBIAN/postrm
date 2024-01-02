@@ -13,7 +13,8 @@ then
     rm -rf /var/www/html/itsm-ng/files
 fi
 
-a2dissite itsm-ng.conf
-
-service apache2 restart
+if [ -e "/usr/sbin/apache2" ]; then
+    a2dissite itsm-ng.conf
+    service apache2 reload
+fi
 exit 0
