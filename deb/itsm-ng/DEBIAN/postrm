@@ -13,7 +13,4 @@ then
     rm -rf /var/www/html/itsm-ng/files
 fi
 
-a2dissite itsm-ng.conf
-
-service apache2 restart
 exit 0

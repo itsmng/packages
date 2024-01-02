@@ -1,3 +1,12 @@
+itsm-ng (1:1.6.0-1) bullseye; urgency=critical
+    Security fixes for:
+        - Account takeover via Kanban feature (GHSA-5wj6-hp4c-j5q9)
+        - Sensitive fields enumeration through API (GHSA-3fxw-j5rj-w836)
+        - Privilege Escalation from technician to super-admin (GHSA-9j8m-7563-8xvr)
+        - Account takeover through API (GHSA-58wj-8jhx-jpm3)
+        - Users login enumeration by unauthenticated user (GHSA-5cf4-6q6r-49x9)
+
+
 itsm-ng (1:1.3.0-2) bullseye; urgency=medium
 
     * Move config files to /etc/itsm-ng

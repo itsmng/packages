@@ -6,6 +6,11 @@ ITSM-NG is stored in ***/usr/share/itsm-ng*** and ***/itsm-ng/var/lib/itsm-ng***
 If you do so update the version in the *control* file in *DEBIAN* folder.
 Also, update the changelog file to keep track of the changes.
 
+To install the dpkg developper package execute this command:
+```
+apt install dpkg-dev
+```
+
 Then, you just need to recomplie it using this command:
 ```
 dpkg-deb -Zgzip --build itsm-ng
