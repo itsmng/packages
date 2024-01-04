@@ -4,3 +4,4 @@ deb/itsm-ng/usr/share/itsm-ng
 !deb/itsm-ng/usr/share/itsm-ng/downstream.php
 rpm/itsm-ng/SOURCES/*.tgz
 .vscode/
+*.swp
