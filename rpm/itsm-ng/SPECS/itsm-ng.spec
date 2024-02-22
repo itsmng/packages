@@ -1,12 +1,12 @@
 %global useselinux 1
 
 %global tarname itsm-ng
-%global official_version 1.5.1
+%global official_version 2.0.0_beta3
 
 %undefine _disable_source_fetch
 
 Name:           itsm-ng
-Version:        1.5.1
+Version:        2.0.0_beta3
 Release:        1%{?dist}
 Summary:        IT Equipment Manager
 
@@ -22,7 +22,7 @@ BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       mariadb-server
 Requires:       httpd
-Requires:       php >= 8.0
+Requires:       php >= 8.1
 Requires:       php-sodium
 Requires:       php-ctype
 Requires:       php-curl
@@ -183,6 +183,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(755, apache, apache, -)
 
 %changelog
+* Fri Feb 22 2024 Florian Blanchet <florian.blanchet@itsm-ng.com> - 2.0.0_beta3-1
+- Migrate ITSM-ng to v2.0.0_beta3
+- The minimal version of php is now 8.1
+
 * Tue Oct 24 2023 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.5.1-1
 - Refactor .SPEC file
 
