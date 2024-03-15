@@ -1,14 +1,15 @@
 %global useselinux 1
 
 %global tarname itsm-ng
-%global official_version 1.5.1
+%global official_version 2.0.0~rc2
 
 %undefine _disable_source_fetch
 
 Name:           itsm-ng
-Version:        1.5.1
+Version:        2.0.0_rc2
 Release:        1%{?dist}
 Summary:        IT Equipment Manager
+Summary(fr):    Gestion Libre de Parc Informatique
 
 Group:          Applications/Internet
 License:        GPLv2
@@ -20,10 +21,10 @@ Source3:        local_define.php
 
 BuildArch:      noarch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:       mariadb-server
 Requires:       httpd
-Requires:       php >= 8.0
-Requires:       php-sodium
+Requires:       mariadb-server
+Requires:       php(httpd)
+Requires:       php >= 8.1
 Requires:       php-ctype
 Requires:       php-curl
 Requires:       php-gd
@@ -37,50 +38,37 @@ Requires:       php-ldap
 Requires:       php-pecl-apcu
 Requires:       php-opcache
 
-%{?rhel:Requires: epel-release}
+Requires(postun): %{_bindir}/systemctl
+Requires(post):   %{_bindir}/systemctl
+%if %{useselinux}
+Requires(post):   /sbin/restorecon
+Requires(post):   /usr/sbin/semanage
+Requires(postun): /usr/sbin/semanage
+%endif
+Requires:         crontabs
+
+Recommends:	php-sodium
+Recommends:	php-selinux
 
 %undefine __brp_mangle_shebangs
 
 %description
 ITSM-NG application RPM package
 
-##########################################
-#                                        #
-#              Preparation               #
-#                                        #
-##########################################
 %prep
 %setup -q -n %{name}
 
-##########################################
-#                                        #
-#               Preinstall               #
-#                                        #
-##########################################
 %pre
 # Backup old ITSM-NG app if exists
 if [ -d "%{_localstatedir}/www/html/itsm-ng/config" ]
 then
     # Create backup folder
-    mkdir -p %{_sharedstatedir}/itsmbackup_update/config
     mkdir -p %{_sharedstatedir}/itsmbackup_update/files
     # Copy files to save
-    cp -ar %{_localstatedir}/www/html/itsm-ng/config/* %{_sharedstatedir}/itsmbackup_update/config
     cp -ar %{_localstatedir}/www/html/itsm-ng/files/* %{_sharedstatedir}/itsmbackup_update/files
     cp -ar %{_localstatedir}/www/html/itsm-ng/plugins %{_sharedstatedir}/itsmbackup_update
 fi
 
-if [ -d "%{_datadir}/itsm-ng" ]
-then
-    # Create backup folder
-    mkdir -p %{_sharedstatedir}/itsmbackup_update/config
-    mkdir -p %{_sharedstatedir}/itsmbackup_update/files
-    # Copy files to save
-    cp -ar %{_sysconfdir}/itsm-ng/* %{_sharedstatedir}/itsmbackup_update/config
-    cp -ar %{_sharedstatedir}/itsm-ng/* %{_sharedstatedir}/itsmbackup_update/files
-    cp -ar %{_datadir}/itsm-ng/plugins %{_sharedstatedir}/itsmbackup_update
-    cp -ar %{_sysconfdir}/httpd/conf.d/itsm-ng.conf %{_sharedstatedir}/itsmbackup_update
-fi
 
 ##########################################
 #                                        #
@@ -114,38 +102,34 @@ cp %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d
 #                                        #
 ##########################################
 %post
-setsebool -P httpd_unified 1
-setsebool -P httpd_can_network_connect 1
-setsebool -P httpd_can_sendmail 1
-setsebool -P httpd_can_network_connect_db 1
-
-
 # Restore backup if exists
 if [ -d %{_sharedstatedir}/itsmbackup_update ]
 then
     # Restore files and folders
-    cp -ar %{_sharedstatedir}/itsmbackup_update/config/* %{_sysconfdir}/itsm-ng
     cp -ar %{_sharedstatedir}/itsmbackup_update/files/* %{_sharedstatedir}/itsm-ng
     cp -ar %{_sharedstatedir}/itsmbackup_update/plugins/* %{_datadir}/itsm-ng/plugins
 
-    if [ -f %{_sharedstatedir}/itsmbackup_update/itsm-ng.conf ]
-    then
-        cp -ar %{_sharedstatedir}/itsmbackup_update/itsm-ng.conf %{_sysconfdir}/httpd/conf.d
-    fi
-    
-    # Rename config_db
-    mv %{_sysconfdir}/itsm-ng/config_db.php %{_sysconfdir}/itsm-ng/config_db.php.old
     # Remove backup folder
     rm -rf %{_sharedstatedir}/itsmbackup_update
 fi
+
+install -Dpm 0644 %{SOURCE1} %{buildroot}/%{_sysconfdir}/httpd/conf.d/itsm-ng.conf
+ 
+%if %{useselinux}
+(
+setsebool -P httpd_unified 1
+setsebool -P httpd_can_network_connect 1
+setsebool -P httpd_can_sendmail 1
+setsebool -P httpd_can_network_connect_db 1	
+) &>/dev/null
+%endif
 
 # Set apache rights
 chown -R apache: %{_sysconfdir}/itsm-ng
 chown -R apache: %{_sharedstatedir}/itsm-ng
 chown -R apache: %{_datadir}/itsm-ng
-chcon -R -t httpd_sys_content_t %{_sysconfdir}/itsm-ng
 
-systemctl restart httpd
+%{_bindir}/systemctl condrestart httpd > /dev/null 2>&1 || :
 
 ##########################################
 #                                        #
@@ -162,7 +146,7 @@ then
     rm -rf %{_localstatedir}/www/html/itsm-ng/files
 fi
 
-systemctl restart httpd
+%{_bindir}/systemctl condrestart httpd > /dev/null 2>&1 || :
 
 ##########################################
 #                                        #
@@ -175,11 +159,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %{_datadir}/itsm-ng
 %defattr(755, apache, apache, -)
-%{_sysconfdir}/itsm-ng
-%defattr(755, apache, apache, -)
 %{_sharedstatedir}/itsm-ng
-%defattr(755, apache, apache, -)
-%{_sysconfdir}/httpd/conf.d/itsm-ng.conf
 %defattr(755, apache, apache, -)
 
 %changelog
