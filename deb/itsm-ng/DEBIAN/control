@@ -2,15 +2,15 @@ Source: itsm-ng
 Section: web
 Essential: no
 Priority: standard
-Maintainer: ITSM-NG Dev team <contact@itsm-ng.com>
+Maintainer: Florian Blanchet <florian.blanchet@itsm-ng.com>
 Build-Depends: debhelper (>= 7.0.50~)
 Homepage: https://www.itsm-ng.org/
 Package: itsm-ng
-Version: 1:1.6.0-3
+Version: 1.6.1
 Architecture: all
 Depends: apache2 | httpd,
          mariadb-server | mysql-server,
-         libapache2-mod-php | php,
+         libapache2-mod-php (>= 7.4) | php (>= 7.4),
          php-ctype,
          php-curl,
          php-gd,
