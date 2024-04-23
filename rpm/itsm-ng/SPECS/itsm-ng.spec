@@ -1,12 +1,12 @@
 %global useselinux 1
 
 %global tarname itsm-ng
-%global official_version 2.0.0~rc2
+%global official_version 1.6.1
 
 %undefine _disable_source_fetch
 
 Name:           itsm-ng
-Version:        2.0.0_rc2
+Version:        1.6.1
 Release:        1%{?dist}
 Summary:        IT Equipment Manager
 Summary(fr):    Gestion Libre de Parc Informatique
@@ -24,7 +24,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       httpd
 Requires:       mariadb-server
 Requires:       php(httpd)
-Requires:       php >= 8.1
+Requires:       php >= 7.4
 Requires:       php-ctype
 Requires:       php-curl
 Requires:       php-gd
