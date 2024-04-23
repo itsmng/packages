@@ -1,12 +1,12 @@
 %global useselinux 1
 
 %global tarname itsm-ng
-%global official_version 2.0.0~rc2
+%global official_version 2.0.0~rc3
 
 %undefine _disable_source_fetch
 
 Name:           itsm-ng
-Version:        2.0.0_rc2
+Version:        2.0.0_rc3
 Release:        1%{?dist}
 Summary:        IT Equipment Manager
 Summary(fr):    Gestion Libre de Parc Informatique
