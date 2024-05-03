@@ -3,7 +3,7 @@
 if [ -d "/var/lib/itsmbackup_update" ]
 then
     echo "Restore old ITSM-NG files..."
-    cp -r /var/lib/itsmbackup_update/files/* /var/lib
+    cp -r /var/lib/itsmbackup_update/files/* /var/lib/itsm-ng/
     echo "Restore old ITSM-NG config..."
     cp -r /var/lib/itsmbackup_update/config/* /etc
     echo "Restore old ITSM-NG plugins..."
