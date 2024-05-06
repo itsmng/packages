@@ -160,6 +160,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/itsm-ng
 %defattr(755, apache, apache, -)
 %{_sharedstatedir}/itsm-ng
+%{_sysconfdir}/itsm-ng
+%{_sysconfdir}/httpd/conf.d/itsm-ng.conf
 %defattr(755, apache, apache, -)
 
 %changelog
