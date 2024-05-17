@@ -6,7 +6,7 @@ Maintainer: Florian Blanchet <florian.blanchet@itsm-ng.com>
 Build-Depends: debhelper (>= 7.0.50~)
 Homepage: https://www.itsm-ng.org/
 Package: itsm-ng
-Version: 1.6.1
+Version: 1:1.6.3-1
 Architecture: all
 Depends: apache2 | httpd,
          mariadb-server | mysql-server,
