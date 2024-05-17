@@ -1,10 +1,5 @@
 %global useselinux 1
 
-%global tarname itsm-ng
-%global official_version 1.6.3
-
-%undefine _disable_source_fetch
-
 Name:           itsm-ng
 Version:        1.6.3
 Release:        1%{?dist}
@@ -24,7 +19,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       httpd
 Requires:       mariadb-server
 Requires:       php >= 7.4
-Requires:       php-bcmath
+Requires:		php-bcmath
 Requires:       php-ctype
 Requires:       php-curl
 Requires:       php-gd
@@ -38,10 +33,10 @@ Requires:       php-opcache
 Recommends:     php-sodium
 
 %if 0%{?suse_version}
-Requires:	    apache2-mod_php81
-Requires:       php81-APCu
-Requires:   	php-fileinfo
-Requires:   	php-zlib
+Requires:		apache2-mod_php81
+Requires:		php81-APCu
+Requires:		php-fileinfo
+Requires:		php-zlib
 Recommends:     php-exif
 %else
 Requires:       php-pecl-apcu
@@ -49,10 +44,10 @@ Recommends:     php-selinux
 %endif
 
 %if 0%{?rhel} || 0%{?fedora}
-Requires:       crontabs
-Requires:       php-mysqli
+Requires:		crontabs
+Requires:		php-mysqli
 %else
-Requires:       php-mysql
+Requires:		php-mysql
 %endif
 
 %undefine __brp_mangle_shebangs
@@ -83,11 +78,11 @@ cp -ar %{buildroot}%{_datadir}/itsm-ng/files/* %{buildroot}%{_sharedstatedir}/it
 
 # Create ITSM-NG apache configuration folder
 %if 0%{?rhel} || 0%{?fedora}
-    mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
+        mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
 	cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/httpd/conf.d/itsm-ng.conf
 %else
-    mkdir -p %{buildroot}%{_sysconfdir}/apache2/conf.d
-    cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/apache2/conf.d/itsm-ng.conf
+        mkdir -p %{buildroot}%{_sysconfdir}/apache2/conf.d
+        cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/apache2/conf.d/itsm-ng.conf
 %endif
 
 %post
@@ -97,6 +92,14 @@ setsebool -P httpd_unified 1
 setsebool -P httpd_can_network_connect 1
 setsebool -P httpd_can_sendmail 1
 setsebool -P httpd_can_network_connect_db 1	
+
+chcon -R -t httpd_sys_rw_content_t %{_sysconfdir}/itsm-ng/
+
+if [ -f /etc/redhat-release ]; then
+	setfacl -m g:apache:rwx /var/lib/itsm-ng/
+else
+	setfacl -m g:wwwrun:rwx /var/lib/itsm-ng/
+fi
 ) &>/dev/null
 %endif
 
