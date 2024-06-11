@@ -126,6 +126,12 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jun 11 2024 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.6.4-2
+- Fix UTF-8 error
+
+* Thu Jun 06 2024 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.6.4-1
+- Release 1.6.4
+
 * Tue Oct 24 2023 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.5.1-1
 - Refactor .SPEC file
 
