@@ -40,15 +40,15 @@ Requires:		php-zlib
 Recommends:     php-exif
 %else
 Requires:       php-pecl-apcu
-Requires:		pcre2-utf32
+Requires:       pcre2-utf32
 Recommends:     php-selinux
 %endif
 
 %if 0%{?rhel} || 0%{?fedora}
-Requires:		crontabs
-Requires:		php-mysqli
+Requires:       crontabs
+Requires:       php-mysqli
 %else
-Requires:		php-mysql
+Requires:       php-mysql
 %endif
 
 %undefine __brp_mangle_shebangs
@@ -79,11 +79,11 @@ cp -ar %{buildroot}%{_datadir}/itsm-ng/files/* %{buildroot}%{_sharedstatedir}/it
 
 # Create ITSM-NG apache configuration folder
 %if 0%{?rhel} || 0%{?fedora}
-        mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
-	cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/httpd/conf.d/itsm-ng.conf
+    mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
+    cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/httpd/conf.d/itsm-ng.conf
 %else
-        mkdir -p %{buildroot}%{_sysconfdir}/apache2/conf.d
-        cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/apache2/conf.d/itsm-ng.conf
+    mkdir -p %{buildroot}%{_sysconfdir}/apache2/conf.d
+    cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/apache2/conf.d/itsm-ng.conf
 %endif
 
 %post
