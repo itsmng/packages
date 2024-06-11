@@ -40,14 +40,15 @@ Requires:		php-zlib
 Recommends:     php-exif
 %else
 Requires:       php-pecl-apcu
+Requires:       pcre2-utf32
 Recommends:     php-selinux
 %endif
 
 %if 0%{?rhel} || 0%{?fedora}
-Requires:		crontabs
-Requires:		php-mysqli
+Requires:       crontabs
+Requires:       php-mysqli
 %else
-Requires:		php-mysql
+Requires:       php-mysql
 %endif
 
 %undefine __brp_mangle_shebangs
@@ -78,11 +79,11 @@ cp -ar %{buildroot}%{_datadir}/itsm-ng/files/* %{buildroot}%{_sharedstatedir}/it
 
 # Create ITSM-NG apache configuration folder
 %if 0%{?rhel} || 0%{?fedora}
-        mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
-	cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/httpd/conf.d/itsm-ng.conf
+    mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
+    cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/httpd/conf.d/itsm-ng.conf
 %else
-        mkdir -p %{buildroot}%{_sysconfdir}/apache2/conf.d
-        cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/apache2/conf.d/itsm-ng.conf
+    mkdir -p %{buildroot}%{_sysconfdir}/apache2/conf.d
+    cp %{SOURCE1} %{buildroot}/%{_sysconfdir}/apache2/conf.d/itsm-ng.conf
 %endif
 
 %post
@@ -125,6 +126,12 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Mon Jun 11 2024 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.6.4-2
+- Fix UTF-8 error
+
+* Thu Jun 06 2024 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.6.4-1
+- Release 1.6.4
+
 * Tue Oct 24 2023 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.5.1-1
 - Refactor .SPEC file
 
