@@ -40,6 +40,7 @@ Requires:		php-zlib
 Recommends:     php-exif
 %else
 Requires:       php-pecl-apcu
+Requires:		pcre2-utf32
 Recommends:     php-selinux
 %endif
 
