@@ -1,0 +1,33 @@
+Source: itsm-ng
+Section: web
+Essential: no
+Priority: standard
+Maintainer: Florian Blanchet <florian.blanchet@itsm-ng.com>
+Build-Depends: debhelper (>= 7.0.50~)
+Homepage: https://www.itsm-ng.org/
+Package: itsm-ng
+Version: 1:2.0.0-rc4
+Architecture: all
+Depends: apache2 | httpd,
+         mariadb-server | mysql-server,
+         libapache2-mod-php (>= 8.1) | php (>= 8.1),
+         php-ctype,
+         php-curl,
+         php-gd,
+         php-iconv,
+         php-intl,
+         php-json,
+         php-mbstring,
+         php-mysqli,
+         php-simplexml,
+        debconf-2.0
+Recommends: php-exif,
+            php-imap,
+            php-ldap,
+            php-sodium,
+            php-zip,
+            php-bz2,
+            php-apcu,
+            php-opcache,
+            php-xmlrpc
+Description: IT Equipment Manager

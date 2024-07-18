@@ -1,0 +1,20 @@
+#!/bin/sh
+#set -e
+
+if [ -d "/usr/share/itsm-ng" ]
+then
+    echo "Save old ITSM-NG folders..."
+    mkdir -p /var/lib/itsmbackup_update/files
+    mkdir -p /var/lib/itsmbackup_update/config
+
+    echo "Save configuration files..."
+    cp -r /etc/itsm-ng /var/lib/itsmbackup_update/config/
+    echo "Save files folder..."
+    cp -r /var/lib/itsm-ng/* /var/lib/itsmbackup_update/files/
+    echo "Save plugins folder..."
+    mv /usr/share/itsm-ng/plugins /var/lib/itsmbackup_update/
+    echo "Save ITSM-NG apache configuration file"
+    cp -r /etc/apache2/sites-available/itsm-ng.conf /var/lib/itsmbackup_update/
+fi
+
+exit 0
