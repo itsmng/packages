@@ -3,6 +3,7 @@
 # Variables
 NAME = itsm-ng
 VERSION = 2.0.0_rc4
+RELEASE_VERSION = 2.0.0~rc4
 TARBALL = $(NAME)-$(VERSION).tgz
 URL = https://github.com/itsmng/$(NAME)/releases/download/v$(VERSION)/$(TARBALL)
 
@@ -31,4 +32,4 @@ override_dh_auto_install:
 	rm -r $(NAME) usr/share/itsm-ng/config
 
 override_dh_gencontrol:
-	dh_gencontrol -- -v1:$(VERSION)
+	dh_gencontrol -- -v1:$(RELEASE_VERSION)
