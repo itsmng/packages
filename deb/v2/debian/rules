@@ -29,7 +29,7 @@ override_dh_auto_install:
 	cp -r $(NAME)/* usr/share/itsm-ng
 
 	# Remove config folder
-	rm -r $(NAME) usr/share/itsm-ng/config
+	rm -r $(NAME) usr/share/itsm-ng/config usr/share/itsm-ng/files
 
 override_dh_gencontrol:
 	dh_gencontrol -- -v1:$(RELEASE_VERSION)
