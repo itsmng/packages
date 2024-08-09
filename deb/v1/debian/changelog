@@ -1,6 +1,3 @@
-itsm-ng (1:2.0.0-rc4) bullseye; urgency=medium
-    * New version of ITSM-NG
-
 itsm-ng (1:1.6.0-1) bullseye; urgency=critical
     Security fixes for:
         - Account takeover via Kanban feature (GHSA-5wj6-hp4c-j5q9)
@@ -8,6 +5,7 @@ itsm-ng (1:1.6.0-1) bullseye; urgency=critical
         - Privilege Escalation from technician to super-admin (GHSA-9j8m-7563-8xvr)
         - Account takeover through API (GHSA-58wj-8jhx-jpm3)
         - Users login enumeration by unauthenticated user (GHSA-5cf4-6q6r-49x9)
+ -- ITSM-NG Dev team <contact@itsm-ng.com>  Thu, 08 Dec 2022 09:31:50 +0200
 
 itsm-ng (1:1.3.0-2) bullseye; urgency=medium
 
