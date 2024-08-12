@@ -1,7 +1,7 @@
 %global useselinux 1
 
 Name:			itsm-ng
-Version:		1.6.3
+Version:		1.6.5
 Release:		1%{?dist}
 Summary:		IT Equipment Manager
 Summary(fr):	Gestion Libre de Parc Informatique
@@ -75,6 +75,9 @@ cp %{SOURCE2} %{buildroot}%{_datadir}/itsm-ng/inc
 mkdir -p %{buildroot}%{_sharedstatedir}/itsm-ng
 cp -ar %{buildroot}%{_datadir}/itsm-ng/files/* %{buildroot}%{_sharedstatedir}/itsm-ng
 
+# Create ITSM-NG log folder
+mkdir -p %{buildroot}%{_localstatedir}/log/itsm-ng
+
 # Create ITSM-NG apache configuration folder
 %if 0%{?rhel} || 0%{?fedora}
     mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d
@@ -92,7 +95,11 @@ setsebool -P httpd_can_network_connect 1
 setsebool -P httpd_can_sendmail 1
 setsebool -P httpd_can_network_connect_db 1	
 
+# Allow httpd to write in itsm-ng config folder
 chcon -R -t httpd_sys_rw_content_t %{_sysconfdir}/itsm-ng/
+
+# Allow httpd to write in itsm-ng log folder
+chcon -R -t httpd_log_t %{_localstatedir}/log/itsm-ng/
 
 if [ -f /etc/redhat-release ]; then
 	setfacl -m g:apache:rwx /var/lib/itsm-ng/
@@ -121,7 +128,10 @@ fi
 %endif
 
 %changelog
-* Mon Jun 11 2024 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.6.4-2
+* Mon Jul 22 2024 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.6.5-1
+- Release 1.6.5
+
+* Tue Jun 11 2024 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.6.4-2
 - Fix UTF-8 error
 
 * Thu Jun 06 2024 Florian Blanchet <florian.blanchet@itsm-ng.com> - 1.6.4-1
