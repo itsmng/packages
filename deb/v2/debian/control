@@ -1,12 +1,12 @@
 Source: itsm-ng
 Section: web
-Essential: no
 Priority: standard
 Maintainer: Florian Blanchet <florian.blanchet@itsm-ng.com>
-Build-Depends: debhelper (>= 7.0.50~)
+Build-Depends: debhelper (>= 9)
+Rules-Requires-Root: no
 Homepage: https://www.itsm-ng.org/
+
 Package: itsm-ng
-Version: 1:2.0.0-rc4
 Architecture: all
 Depends: apache2 | httpd,
          mariadb-server | mysql-server,
@@ -20,7 +20,7 @@ Depends: apache2 | httpd,
          php-mbstring,
          php-mysqli,
          php-simplexml,
-        debconf-2.0
+         debconf-2.0
 Recommends: php-exif,
             php-imap,
             php-ldap,
@@ -31,3 +31,5 @@ Recommends: php-exif,
             php-opcache,
             php-xmlrpc
 Description: IT Equipment Manager
+ An advanced IT equipment management solution that helps 
+ organizations manage hardware and software assets efficiently.
