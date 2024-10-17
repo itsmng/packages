@@ -1,7 +1,7 @@
 %global useselinux 1
 
 Name:			itsm-ng
-Version:		1.6.5
+Version:		2.0.0
 Release:		1%{?dist}
 Summary:		IT Equipment Manager
 Summary(fr):	Gestion Libre de Parc Informatique
@@ -16,7 +16,7 @@ Source3:		local_define.php
 BuildArch:		noarch
 Requires:		httpd
 Requires:		mariadb-server
-Requires:		php >= 7.4
+Requires:		php >= 8.0
 Requires:		php-bcmath
 Requires:		php-ctype
 Requires:		php-curl
