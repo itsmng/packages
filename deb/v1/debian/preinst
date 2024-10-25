@@ -17,19 +17,4 @@ then
     cp -r /etc/apache2/sites-available/itsm-ng.conf /var/lib/itsmbackup_update/
 fi
 
-# Migration 1.3.0-1 to 1.3.0-2
-if [ -d "/var/www/html/itsm-ng" ]
-then
-    echo "Save old ITSM-NG folders..."
-    mkdir -p /var/lib/itsmbackup_update/files
-    mkdir -p /var/lib/itsmbackup_update/config
-
-    echo "Save configuration files..."
-    mv /var/www/html/itsm-ng/config/* /var/lib/itsmbackup_update/config/
-    echo "Save files folder..."
-    mv /var/www/html/itsm-ng/files/* /var/lib/itsmbackup_update/files/
-    echo "Save plugins folder..."
-    mv /var/www/html/itsm-ng/plugins /var/lib/itsmbackup_update/
-fi
-
 exit 0
