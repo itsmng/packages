@@ -2,10 +2,10 @@
 
 # Variables
 NAME = itsm-ng
-VERSION = 2.0.0_rc4
-RELEASE_VERSION = 2.0.0~rc4
-TARBALL = $(NAME)-$(VERSION).tgz
-URL = https://github.com/itsmng/$(NAME)/releases/download/v$(VERSION)/$(TARBALL)
+VERSION = 2.0.1
+RELEASE_VERSION = 2.0.1
+TARBALL = $(NAME)-v$(VERSION).tgz
+URL = https://github.com/minzords/$(NAME)/releases/download/v$(VERSION)/$(TARBALL)
 
 %:
 	dh $@
