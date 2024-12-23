@@ -6,8 +6,7 @@ Release:	1%{?dist}
 Summary:	IT Equipment Manager
 Summary(fr):	Gestion Libre de Parc Informatique
 
-Group:		Applications/Internet
-License:	GPLv2
+License:	GPL-2.0-or-later
 URL:		http://www.itsm-ng.org/
 Source0:	https://github.com/itsmng/itsm-ng/releases/download/v%{version}/%{name}-v%{version}.tgz # Release
 Source1:	itsm-ng.conf # HTTPD Config
