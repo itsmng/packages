@@ -1,7 +1,7 @@
 %global useselinux 1
 
 Name:		itsm-ng
-Version:	2.0.1
+Version:	2.0.3
 Release:	1%{?dist}
 Summary:	IT Equipment Manager
 Summary(fr):	Gestion Libre de Parc Informatique
@@ -15,7 +15,6 @@ Source2:	downstream.php
 Source3:	local_define.php
 
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	httpd
 Requires:	mariadb-server
 Requires:	php >= 8.1
@@ -32,25 +31,21 @@ Requires:	php-ldap
 Requires:	php-opcache
 Recommends:	php-sodium
 
+%if 0%{?rhel} || 0%{?fedora}
+Requires:	crontabs
+Requires:	php-mysqli
+Requires:	php-pecl-apcu
+Recommends:	php-selinux
+%endif
+
 %if 0%{?suse_version}
 Requires:	apache2-mod_php81
 Requires:	php81-APCu
 Requires:	php-fileinfo
 Requires:	php-zlib
-Recommends:	php-exif
-%else
-Requires:	php-pecl-apcu
-Recommends:	php-selinux
-%endif
-
-%if 0%{?rhel} || 0%{?fedora}
-Requires:	crontabs
-Requires:	php-mysqli
-%else
 Requires:	php-mysql
+Recommends:	php-exif
 %endif
-
-%undefine __brp_mangle_shebangs
 
 %description
 ITSM-NG application RPM package
