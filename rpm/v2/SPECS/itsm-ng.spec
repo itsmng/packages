@@ -9,10 +9,10 @@ Summary(fr):	Gestion Libre de Parc Informatique
 Group:		Applications/Internet
 License:	GPLv2
 URL:		http://www.itsm-ng.org/
-Source0:	https://github.com/itsmng/itsm-ng/releases/download/v%{version}/%{name}-v%{version}.tgz
-Source1:	itsm-ng.conf
-Source2:	downstream.php
-Source3:	local_define.php
+Source0:	https://github.com/itsmng/itsm-ng/releases/download/v%{version}/%{name}-v%{version}.tgz # Release
+Source1:	itsm-ng.conf # HTTPD Config
+Source2:	downstream.php # Variable Config
+Source3:	local_define.php # File to use /etc/itsm-ng folder
 
 BuildArch:	noarch
 Requires:	httpd
@@ -71,7 +71,8 @@ cp %{SOURCE2} %{buildroot}%{_datadir}/itsm-ng/inc
 
 # Copy ITSM-NG files folder
 mkdir -p %{buildroot}%{_sharedstatedir}/itsm-ng
-cp -ar %{buildroot}%{_datadir}/itsm-ng/files/* %{buildroot}%{_sharedstatedir}/itsm-ng
+cp -ar %{buildroot}%{_datadir}/itsm-ng/files/* \
+	%{buildroot}%{_sharedstatedir}/itsm-ng
 
 # Create ITSM-NG apache configuration folder
 %if 0%{?rhel} || 0%{?fedora}
