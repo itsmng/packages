@@ -101,11 +101,6 @@ fi
 ) &>/dev/null
 %endif
 
-%{_bindir}/systemctl condrestart httpd > /dev/null 2>&1 || :
-
-%postun
-%{_bindir}/systemctl condrestart httpd > /dev/null 2>&1 || :
-
 %files
 %if 0%{?rhel} || 0%{?fedora}
 	%config(noreplace,missingok) %attr(750,apache,apache) %{_sysconfdir}/itsm-ng
