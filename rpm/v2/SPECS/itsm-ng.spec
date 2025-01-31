@@ -1,17 +1,18 @@
 %global useselinux 1
 
 Name:		itsm-ng
-Version:	2.0.3
-Release:	1%{?dist}
+Version:	2.0.4
+Release:	2%{?dist}
 Summary:	IT Equipment Manager
 Summary(fr):	Gestion Libre de Parc Informatique
 
-License:	GPL-2.0-or-later
+Group:		Applications/Internet
+License:	GPLv2
 URL:		http://www.itsm-ng.org/
-Source0:	https://github.com/itsmng/itsm-ng/releases/download/v%{version}/%{name}-v%{version}.tgz # Release
-Source1:	itsm-ng.conf # HTTPD Config
-Source2:	downstream.php # Variable Config
-Source3:	local_define.php # File to use /etc/itsm-ng folder
+Source0:	https://github.com/itsmng/itsm-ng/releases/download/v%{version}/%{name}-v%{version}.tgz
+Source1:	itsm-ng.conf
+Source2:	downstream.php
+Source3:	local_define.php
 
 BuildArch:	noarch
 Requires:	httpd
@@ -30,21 +31,25 @@ Requires:	php-ldap
 Requires:	php-opcache
 Recommends:	php-sodium
 
-%if 0%{?rhel} || 0%{?fedora}
-Requires:	crontabs
-Requires:	php-mysqli
-Requires:	php-pecl-apcu
-Recommends:	php-selinux
-%endif
-
 %if 0%{?suse_version}
 Requires:	apache2-mod_php81
 Requires:	php81-APCu
 Requires:	php-fileinfo
 Requires:	php-zlib
-Requires:	php-mysql
 Recommends:	php-exif
+%else
+Requires:	php-pecl-apcu
+Recommends:	php-selinux
 %endif
+
+%if 0%{?rhel} || 0%{?fedora}
+Requires:	crontabs
+Requires:	php-mysqli
+%else
+Requires:	php-mysql
+%endif
+
+%undefine __brp_mangle_shebangs
 
 %description
 ITSM-NG application RPM package
@@ -70,8 +75,7 @@ cp %{SOURCE2} %{buildroot}%{_datadir}/itsm-ng/inc
 
 # Copy ITSM-NG files folder
 mkdir -p %{buildroot}%{_sharedstatedir}/itsm-ng
-cp -ar %{buildroot}%{_datadir}/itsm-ng/files/* \
-	%{buildroot}%{_sharedstatedir}/itsm-ng
+cp -ar %{buildroot}%{_datadir}/itsm-ng/files/* %{buildroot}%{_sharedstatedir}/itsm-ng
 
 # Create ITSM-NG apache configuration folder
 %if 0%{?rhel} || 0%{?fedora}
@@ -99,6 +103,11 @@ else
 fi
 ) &>/dev/null
 %endif
+
+%{_bindir}/systemctl condrestart httpd > /dev/null 2>&1 || :
+
+%postun
+%{_bindir}/systemctl condrestart httpd > /dev/null 2>&1 || :
 
 %files
 %if 0%{?rhel} || 0%{?fedora}
