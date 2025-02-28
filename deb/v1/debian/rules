@@ -2,7 +2,7 @@
 
 # Variables
 NAME = itsm-ng
-VERSION = 1.6.7
+VERSION = 1.6.10
 TARBALL = $(NAME)-$(VERSION).tgz
 URL = https://github.com/itsmng/$(NAME)/releases/download/v$(VERSION)/$(TARBALL)
 
