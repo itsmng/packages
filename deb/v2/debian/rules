@@ -3,9 +3,8 @@
 # Variables
 NAME = itsm-ng
 VERSION = 2.0.4
-RELEASE_VERSION = 2.0.4
 TARBALL = $(NAME)-v$(VERSION).tgz
-URL = https://github.com/minzords/$(NAME)/releases/download/v$(VERSION)/$(TARBALL)
+URL = https://github.com/itsmng/$(NAME)/releases/download/v$(VERSION)/$(TARBALL)
 
 %:
 	dh $@
@@ -35,4 +34,4 @@ override_dh_auto_install:
 	mkdir -p var/log/itsm-ng
 
 override_dh_gencontrol:
-	dh_gencontrol -- -v1:$(RELEASE_VERSION)
+	dh_gencontrol -- -v1:$(VERSION)

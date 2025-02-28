@@ -1,7 +1,7 @@
 %global useselinux 1
 
 Name:		itsm-ng
-Version:	2.0.4
+Version:	2.0.6
 Release:	2%{?dist}
 Summary:	IT Equipment Manager
 Summary(fr):	Gestion Libre de Parc Informatique
