@@ -1,7 +1,7 @@
 itsm-ng (1:2.0.0) bullseye; urgency=critical
     ITSM-NG 2.0.0:
         - release
- -- Florian Blanchet <florian.blanchet@itsm-ng.com>  Thu, 17 Oct 2024 09:31:50 +0200
+ -- ITSM-NG Dev team <contact@itsm-ng.com>  Thu, 17 Oct 2024 09:31:50 +0200
 
 
 itsm-ng (1:1.6.0-1) bullseye; urgency=critical
