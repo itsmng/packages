@@ -1,0 +1,130 @@
+name: Build and publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential dpkg-dev debhelper
+
+      - name: Set DEB package directory
+        id: debdir
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == 1.* ]]; then
+            echo "dir=deb/v1" >> $GITHUB_OUTPUT
+          else
+            echo "dir=deb/v2" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build DEB Package
+        run: |
+          cd ${{ steps.debdir.outputs.dir }}
+          sed -i "s/CHANGEVERSION/${GITHUB_REF_NAME}/g" debian/rules
+          dpkg-buildpackage -us -uc -b
+          mv ../itsm-ng_${GITHUB_REF_NAME}_all.deb $GITHUB_WORKSPACE/
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+
+      - name: Upload DEB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: itsm-ng_${{ github.ref_name }}_all.deb
+          path: ${{ github.workspace }}/itsm-ng_${{ github.ref_name }}_all.deb
+
+
+  build-rpm:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: almalinux
+            version: 9
+          - os: almalinux
+            version: 10
+          - os: fedora
+            version: 40
+          - os: fedora
+            version: 41
+    container:
+      image: ${{ matrix.os }}:${{ matrix.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          dnf install -y rpm-build rpm-sign rpmdevtools dnf-plugins-core git make gcc sed gnupg
+
+      - name: Set RPM package directory
+        id: rpmdir
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == 1.* ]]; then
+            echo "dir=rpm/v1" >> $GITHUB_OUTPUT
+          else
+            echo "dir=rpm/v2" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.RPM_GPG_PRIVATE_KEY }}" | gpg --batch --import
+          gpg --list-secret-keys
+
+      - name: Build RPM + SRPM Packages
+        run: |
+          cd ${{ steps.rpmdir.outputs.dir }}
+          sed -i "s/CHANGEVERSION/${GITHUB_REF_NAME}/g" SPECS/itsm-ng.spec
+          rpmbuild -ba SPECS/itsm-ng.spec --define "_topdir $PWD" --undefine=_disable_source_fetch
+
+          RPM_FILE=$(find RPMS/noarch -name "itsm-ng-*.noarch.rpm" | head -n1)
+          SRPM_FILE=$(find SRPMS -name "itsm-ng-*.src.rpm" | head -n1)
+
+          cp "$RPM_FILE"  "$GITHUB_WORKSPACE/itsm-ng-${GITHUB_REF_NAME}-${{ matrix.os }}${{ matrix.version }}.rpm"
+          cp "$SRPM_FILE" "$GITHUB_WORKSPACE/itsm-ng-${GITHUB_REF_NAME}-${{ matrix.os }}${{ matrix.version }}.src.rpm"
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+
+      - name: Sign RPMs
+        run: |
+          rpm --define "_gpg_name ITSM Dev team" --addsign $GITHUB_WORKSPACE/itsm-ng-${GITHUB_REF_NAME}-${{ matrix.os }}${{ matrix.version }}.rpm
+
+      - name: Upload RPM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: itsm-ng-${{ github.ref_name }}-${{ matrix.os }}${{ matrix.version }}.rpm
+          path: ${{ github.workspace }}/itsm-ng-${{ github.ref_name }}-${{ matrix.os }}${{ matrix.version }}.rpm
+
+      - name: Upload SRPM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: itsm-ng-${{ github.ref_name }}-${{ matrix.os }}${{ matrix.version }}.src.rpm
+          path: ${{ github.workspace }}/itsm-ng-${{ github.ref_name }}-${{ matrix.os }}${{ matrix.version }}.src.rpm
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [build-deb, build-rpm]
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./dist
+          merge-multiple: true
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./dist/*
+          name: ${{ github.ref_name }}
+          draft: false
+          generate_release_notes: false
+
