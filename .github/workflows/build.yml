@@ -149,7 +149,26 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
           ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+          rm ./dist/*.src.rpm
 
-          scp -P "$SSH_PORT" ./dist/*.rpm root@"$SSH_HOST":/root
+          for file in ./dist/*.rpm; do
+            base=$(basename "$file")
 
-          ssh -p "$SSH_PORT" root@"$SSH_HOST" "ls /root"
+            if [[ "$base" =~ almalinux([0-9]+) ]]; then
+              version="${BASH_REMATCH[1]}"
+              TARGET_DIR="/var/www/RPM/redhat/$version"
+            elif [[ "$base" =~ fedora([0-9]+) ]]; then
+              version="${BASH_REMATCH[1]}"
+              TARGET_DIR="/var/www/RPM/fedora/$version"
+            else
+              echo "⚠️ Impossible de détecter la cible pour $base"
+              continue
+            fi
+
+            echo "📦 Upload de $base vers $TARGET_DIR"
+            ssh -p "$SSH_PORT" root@"$SSH_HOST" "mkdir -p $TARGET_DIR"
+            scp -P "$SSH_PORT" "$file" root@"$SSH_HOST":"$TARGET_DIR/"
+
+            echo "🔄 Mise à jour metadata dans $TARGET_DIR"
+            ssh -p "$SSH_PORT" root@"$SSH_HOST" "createrepo --update $TARGET_DIR"
+          done
