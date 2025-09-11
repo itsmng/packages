@@ -128,3 +128,26 @@ jobs:
           draft: false
           generate_release_notes: false
 
+upload-to-server:
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./dist
+          merge-multiple: true
+
+      - name: Upload RPMs to server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          scp -P "$SSH_PORT" ./dist/*.rpm root@"$SSH_HOST":/root
+
+          ssh -p "$SSH_PORT" root@"$SSH_HOST" "ls /root"
