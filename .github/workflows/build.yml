@@ -170,5 +170,5 @@ jobs:
             scp -P "$SSH_PORT" "$file" root@"$SSH_HOST":"$TARGET_DIR/"
 
             echo "🔄 Mise à jour metadata dans $TARGET_DIR"
-            ssh -p "$SSH_PORT" root@"$SSH_HOST" "createrepo --update $TARGET_DIR"
+            ssh -p "$SSH_PORT" root@"$SSH_HOST" "createrepo_c --update $TARGET_DIR"
           done
