@@ -148,6 +148,8 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+
           scp -P "$SSH_PORT" ./dist/*.rpm root@"$SSH_HOST":/root
 
           ssh -p "$SSH_PORT" root@"$SSH_HOST" "ls /root"
