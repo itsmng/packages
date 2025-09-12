@@ -172,3 +172,57 @@ jobs:
             echo "🔄 Mise à jour metadata dans $TARGET_DIR"
             ssh -p "$SSH_PORT" root@"$SSH_HOST" "createrepo_c --update $TARGET_DIR"
           done
+
+  upload-deb-to-server:
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./dist
+          merge-multiple: true
+
+      - name: Upload DEBs to server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT_DEB }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+
+          # Définir les distributions en fonction de la version
+          if [[ "$GITHUB_REF_NAME" == 1.* ]]; then
+            DISTROS_DEBIAN="oldrelease"
+            DISTROS_UBUNTU="oldrelease"
+          else
+            DISTROS_DEBIAN="buster bullseye bookworm trixie sid"
+            DISTROS_UBUNTU="bionic focal jammy noble"
+          fi
+
+          for file in ./dist/*.deb; do
+            base=$(basename "$file")
+            echo "📦 Upload de $base vers le serveur"
+            scp -P "$SSH_PORT" "$file" root@"$SSH_HOST":/tmp/
+
+            # Ajout dans toutes les distributions Debian
+            for dist in $DISTROS_DEBIAN; do
+              echo "➕ Ajout de $base dans Debian $dist"
+              ssh -p "$SSH_PORT" root@"$SSH_HOST" \
+                "cd /var/www/debian && reprepro -Vb . includedeb $dist /tmp/$base"
+            done
+
+            # Ajout dans toutes les distributions Ubuntu
+            for dist in $DISTROS_UBUNTU; do
+              echo "➕ Ajout de $base dans Ubuntu $dist"
+              ssh -p "$SSH_PORT" root@"$SSH_HOST" \
+                "cd /var/www/ubuntu && reprepro -Vb . includedeb $dist /tmp/$base"
+            done
+
+            # Nettoyage
+            ssh -p "$SSH_PORT" root@"$SSH_HOST" "rm -f /tmp/$base"
+          done
