@@ -128,7 +128,7 @@ jobs:
           draft: false
           generate_release_notes: false
 
-  upload-to-server:
+  upload-rpm-to-server:
     runs-on: ubuntu-latest
     needs: release
     steps:
