@@ -6,7 +6,7 @@ ITSM-NG is stored in ***/usr/share/itsm-ng*** and ***/itsm-ng/var/lib/itsm-ng***
 
 To install the dpkg developper package execute this command:
 ```
-apt install dpkg-dev debhelper
+apt install dpkg-dev debhelper wget
 ```
 
 Then, set the version in the *rules* file in *debian* folder.
