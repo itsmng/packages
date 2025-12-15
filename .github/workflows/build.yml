@@ -54,8 +54,6 @@ jobs:
           - os: almalinux
             version: 10
           - os: fedora
-            version: 41
-          - os: fedora
             version: 42
     container:
       image: ${{ matrix.os }}:${{ matrix.version }}
@@ -227,3 +225,4 @@ jobs:
             ssh -p "$SSH_PORT" root@"$SSH_HOST" "rm -f /tmp/$base"
 
           done
+
