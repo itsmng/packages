@@ -2,7 +2,7 @@
 
 Name:		itsm-ng
 Version:	CHANGEVERSION
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	IT Equipment Manager
 Summary(fr):	Gestion Libre de Parc Informatique
 
