@@ -199,7 +199,7 @@ jobs:
             DISTROS_UBUNTU="oldrelease"
           else
             DISTROS_DEBIAN="buster bullseye bookworm trixie sid"
-            DISTROS_UBUNTU="bionic focal jammy noble"
+            DISTROS_UBUNTU="bionic focal jammy noble resolute"
           fi
 
           for file in ./dist/*.deb; do
@@ -225,5 +225,6 @@ jobs:
             ssh -p "$SSH_PORT" root@"$SSH_HOST" "rm -f /tmp/$base"
 
           done
+
 
 
