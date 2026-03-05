@@ -1,0 +1,11 @@
+/var/lib/itsm-ng/_log/*.log {
+    daily
+    rotate 7
+    missingok
+    compress
+    delaycompress
+    notifempty
+    copytruncate
+    create 0640 www-data www-data
+    su www-data www-data
+}
