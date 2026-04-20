@@ -12,7 +12,7 @@ jobs:
   build-deb:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install tools
         run: |
@@ -38,7 +38,7 @@ jobs:
           GITHUB_REF_NAME: ${{ github.ref_name }}
 
       - name: Upload DEB artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: itsm-ng_${{ github.ref_name }}_all.deb
           path: ${{ github.workspace }}/itsm-ng_${{ github.ref_name }}_all.deb
@@ -58,7 +58,7 @@ jobs:
     container:
       image: ${{ matrix.os }}:${{ matrix.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install build tools
         run: |
@@ -97,13 +97,13 @@ jobs:
           rpm --define "_gpg_name ITSM Dev team" --addsign $GITHUB_WORKSPACE/itsm-ng-${GITHUB_REF_NAME}-${{ matrix.os }}${{ matrix.version }}.rpm
 
       - name: Upload RPM artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: itsm-ng-${{ github.ref_name }}-${{ matrix.os }}${{ matrix.version }}.rpm
           path: ${{ github.workspace }}/itsm-ng-${{ github.ref_name }}-${{ matrix.os }}${{ matrix.version }}.rpm
 
       - name: Upload SRPM artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: itsm-ng-${{ github.ref_name }}-${{ matrix.os }}${{ matrix.version }}.src.rpm
           path: ${{ github.workspace }}/itsm-ng-${{ github.ref_name }}-${{ matrix.os }}${{ matrix.version }}.src.rpm
