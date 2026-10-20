@@ -54,7 +54,7 @@ jobs:
           - os: almalinux
             version: 10
           - os: fedora
-            version: 43
+            version: 44
     container:
       image: ${{ matrix.os }}:${{ matrix.version }}
     steps:
