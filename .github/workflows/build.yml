@@ -198,7 +198,7 @@ jobs:
             DISTROS_DEBIAN="oldrelease"
             DISTROS_UBUNTU="oldrelease"
           else
-            DISTROS_DEBIAN="buster bullseye bookworm trixie sid"
+            DISTROS_DEBIAN="bookworm trixie sid"
             DISTROS_UBUNTU="jammy noble resolute"
           fi
 
